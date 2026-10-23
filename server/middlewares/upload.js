@@ -1,8 +1,14 @@
-import multer from "multer";
-import path from "path";
-import fs from "fs";
 
-const uploadDir = process.env.UPLOAD_DIR || "uploads";
+import multer from "multer";
+import path from "node:path";
+import fs from "node:fs";
+import os from "node:os";
+
+const uploadDir =
+    process.env.UPLOAD_DIR ||
+    (process.env.VERCEL
+        ? path.join(os.tmpdir(), "lifevault-uploads")
+        : path.join(process.cwd(), "uploads"));
 
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
