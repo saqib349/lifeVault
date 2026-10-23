@@ -14,7 +14,7 @@ export interface GetItemsParams {
 @Injectable({ providedIn: 'root' })
 export class VaultService {
     private http = inject(HttpClient);
-    private readonly base = 'http://localhost:8000/api/items';
+    private readonly base = 'https://life-vault-2up2.vercel.app/api/items';
 
     getMyItems(params: GetItemsParams = {}) {
         let httpParams = new HttpParams();
@@ -33,7 +33,7 @@ export class VaultService {
     }
 
     getDocumentUrl(documentId: string): string {
-        return `http://localhost:8000/api/documents/${documentId}`;
+        return `https://life-vault-2up2.vercel.app/api/documents/${documentId}`;
     }
 
     getDocument(documentId: string) {
@@ -44,7 +44,7 @@ export class VaultService {
     }
 
     getDownloadUrl(documentId: string) {
-        return `http://localhost:8000/api/documents/${documentId}/download`;
+        return `https://life-vault-2up2.vercel.app/api/documents/${documentId}/download`;
     }
     getDownload(documentId: string) {
         return this.http.get(

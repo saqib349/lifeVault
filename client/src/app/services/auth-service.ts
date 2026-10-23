@@ -19,7 +19,7 @@ export class AuthService {
 
     fetchUser() {
         return this.http
-            .get<fetchUserResponse>('http://localhost:8000/authme')
+            .get<fetchUserResponse>('https://life-vault-2up2.vercel.app/authme')
             .pipe(
                 tap((result) => {
                     this.islogedIn.set(true);
@@ -40,13 +40,13 @@ export class AuthService {
     }
 
     signup(user: Omit<User, "role" | "_id">) {
-        return this.http.post<{ message: string }>("http://localhost:8000/api/auth/signup", user)
+        return this.http.post<{ message: string }>("https://life-vault-2up2.vercel.app/api/auth/signup", user)
     }
 
     login(user: Omit<User, "username" | "role" | "_id">) {
         return this.http
             .post<loginResponse>(
-                "http://localhost:8000/api/auth/login",
+                "https://life-vault-2up2.vercel.app/api/auth/login",
                 user
             )
             .pipe(

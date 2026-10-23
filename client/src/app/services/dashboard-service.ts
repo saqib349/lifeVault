@@ -12,14 +12,14 @@ export class DashboardService {
         const formData = new FormData();
         formData.append('document', file);
         return this.http.post<ExtractDocumentResponse>(
-            'http://localhost:8000/api/items/extract',
+            'https://life-vault-2up2.vercel.app/api/items/extract',
             formData
         );
     }
 
     saveItem(body: SaveItemRequest) {
         return this.http.post<SaveItemResponse>(
-            'http://localhost:8000/api/items',
+            'https://life-vault-2up2.vercel.app/api/items',
             body
         );
     }

@@ -40,7 +40,7 @@ app.use(async (req, res, next) => {
 });
 
 // for testing
-app.get((req, res) => {
+app.get("/", (req, res) => {
     return res.status(200).json({
         message: "server successfully deployed"
     })
