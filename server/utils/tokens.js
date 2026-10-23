@@ -1,4 +1,4 @@
-process.loadEnvFile()
+
 import jwt from "jsonwebtoken";
 
 const secretKey = process.env.SECRETE_KEY;
