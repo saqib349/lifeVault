@@ -52,7 +52,7 @@ export async function extractItemFromDocument(req, res, next) {
 
             data: {
                 document: {
-                    id: documentId,
+                    _id: documentId,
 
                     originalName: document.originalName,
 
