@@ -1,0 +1,67 @@
+
+<div class="auth-page">
+  <div class="auth-card">
+
+    <div class="brand">
+      <div class="brand-icon">L</div>
+
+      <div>
+        <h1>LifeVault</h1>
+        <span>AI-Powered Personal Vault</span>
+      </div>
+    </div>
+
+    <div class="auth-heading">
+      <h2>Create your account</h2>
+      <p>Start building your secure personal vault.</p>
+    </div>
+
+    <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+
+      <div class="form-group">
+        <label for="username">Username</label>
+
+        <input
+          type="text"
+          id="username"
+          placeholder="saqib123"
+          formControlName="username"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="you@example.com"
+          formControlName="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+
+        <input
+          type="password"
+          id="password"
+          placeholder="Create a secure password"
+          formControlName="password"
+        />
+      </div>
+
+      <button type="submit" [disabled]="signupForm.invalid">
+        Create account
+      </button>
+
+    </form>
+
+    <div class="auth-footer">
+      <span>Already have an account?</span>
+      <a routerLink="/login">Sign in</a>
+    </div>
+
+  </div>
+</div>
+

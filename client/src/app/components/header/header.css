@@ -1,0 +1,512 @@
+:host {
+  display: block;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 70px;
+
+  background: rgba(8, 13, 26, 0.88);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.10);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.header-inner {
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 28px;
+
+  display: flex;
+  align-items: center;
+}
+
+
+/* =========================
+   BRAND
+========================= */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #8b5cf6
+  );
+
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+
+  box-shadow:
+    0 6px 20px rgba(59, 130, 246, 0.22);
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  color: #f8fafc;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.brand-tagline {
+  margin-top: 2px;
+
+  color: #64748b;
+  font-size: 9px;
+  line-height: 1;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-left: 55px;
+}
+
+.main-nav a {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 9px 13px;
+
+  border-radius: 8px;
+
+  color: #94a3b8;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.main-nav a:hover {
+  color: #e2e8f0;
+  background: rgba(148, 163, 184, 0.07);
+}
+
+.main-nav a.active {
+  color: #60a5fa;
+  background: rgba(59, 130, 246, 0.10);
+}
+
+.ai-icon {
+  color: #a78bfa;
+  font-size: 14px;
+}
+
+
+/* =========================
+   RIGHT ACTIONS
+========================= */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+
+  margin-left: auto;
+  gap: 14px;
+}
+
+
+/* =========================
+   AI BUTTON
+========================= */
+
+.ai-button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 8px 14px;
+
+  border: 1px solid rgba(99, 102, 241, 0.30);
+  border-radius: 8px;
+
+  background: rgba(99, 102, 241, 0.10);
+  color: #a5b4fc;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.ai-button span {
+  color: #c4b5fd;
+  font-size: 14px;
+}
+
+.ai-button:hover {
+  background: rgba(99, 102, 241, 0.17);
+  border-color: rgba(99, 102, 241, 0.45);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================
+   DIVIDER
+========================= */
+
+.divider {
+  width: 1px;
+  height: 28px;
+
+  background: rgba(148, 163, 184, 0.12);
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 4px 6px;
+
+  border: none;
+  border-radius: 9px;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease;
+}
+
+.profile-button:hover {
+  background: rgba(148, 163, 184, 0.07);
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 9px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #6366f1
+  );
+
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profile-name {
+  color: #e2e8f0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.profile-role {
+  margin-top: 2px;
+
+  color: #64748b;
+  font-size: 9px;
+}
+
+.dropdown-icon {
+  margin-left: 2px;
+
+  color: #64748b;
+  font-size: 16px;
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+.logout-button {
+  height: 34px;
+  padding: 0 12px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 8px;
+
+  background: rgba(148, 163, 184, 0.05);
+  color: #94a3b8;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.logout-button:hover {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.20);
+}
+
+
+/* =========================
+   GUEST AUTH ACTIONS
+========================= */
+
+.guest-actions {
+  gap: 9px;
+}
+
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.login-button {
+  height: 36px;
+  padding: 0 15px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(148, 163, 184, 0.20);
+  border-radius: 8px;
+
+  background: rgba(148, 163, 184, 0.05);
+  color: #cbd5e1;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.login-button:hover {
+  color: #f8fafc;
+  background: rgba(148, 163, 184, 0.10);
+  border-color: rgba(148, 163, 184, 0.30);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================
+   SIGN UP BUTTON
+========================= */
+
+.signup-button {
+  height: 36px;
+  padding: 0 16px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(59, 130, 246, 0.45);
+  border-radius: 8px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #6366f1
+  );
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  box-shadow:
+    0 4px 14px rgba(59, 130, 246, 0.16);
+
+  transition:
+    filter 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.signup-button:hover {
+  filter: brightness(1.08);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 6px 18px rgba(59, 130, 246, 0.24);
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+  .main-nav {
+    margin-left: 25px;
+  }
+
+  .profile-info {
+    display: none;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .header-inner {
+    padding: 0 18px;
+  }
+
+  .brand-tagline {
+    display: none;
+  }
+
+  .main-nav {
+    display: none;
+  }
+
+  .ai-button {
+    padding: 8px 11px;
+  }
+
+  .ai-button {
+    font-size: 0;
+  }
+
+  .ai-button span {
+    font-size: 16px;
+  }
+
+}
+
+
+@media (max-width: 500px) {
+
+  .header-inner {
+    padding: 0 14px;
+  }
+
+  .brand-name {
+    font-size: 15px;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .logout-button {
+    padding: 0 10px;
+  }
+
+  .login-button,
+  .signup-button {
+    height: 34px;
+    padding: 0 11px;
+
+    font-size: 11px;
+  }
+
+}
+
+
+@media (max-width: 400px) {
+
+  .brand-text {
+    display: none;
+  }
+
+  .brand-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .login-button,
+  .signup-button {
+    padding: 0 9px;
+  }
+
+  .logout-button {
+    font-size: 10px;
+  }
+
+}

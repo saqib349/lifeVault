@@ -1,0 +1,275 @@
+<div class="dashboard">
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div>
+      <span class="eyebrow">LIFEVAULT</span>
+      <h1>Your Personal Vault</h1>
+      <p>
+        Upload your receipts and documents. LifeVault will extract the
+        important information for you.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- Upload Section -->
+  <section class="upload-card">
+
+    <div class="section-heading">
+      <div>
+        <h2>Scan a Document</h2>
+        <p>Upload a receipt, invoice, warranty or purchase document.</p>
+      </div>
+    </div>
+
+    <label class="upload-zone" for="documentFile" [class.zone-disabled]="isExtracting()">
+
+      <div class="upload-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
+        </svg>
+      </div>
+
+      <h3>Upload your document</h3>
+
+      <p>
+        Drag &amp; drop your file here or
+        <span>browse from your device</span>
+      </p>
+
+      <small>
+        Supported formats: JPG, PNG, PDF &middot; Max size: 10 MB
+      </small>
+
+      <input id="documentFile" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"
+        (change)="onFileChange($event)" [disabled]="isExtracting()" />
+
+    </label>
+
+
+    <!-- Selected File -->
+    <div class="selected-file" *ngIf="selectedFile">
+
+      <div class="file-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+        </svg>
+      </div>
+
+      <div class="file-details">
+        <strong>{{ selectedFile.name }}</strong>
+        <span>{{ fileSizeFormatted }}</span>
+      </div>
+
+      <button type="button" class="remove-file" (click)="removeFile()" [disabled]="isExtracting()">
+        &times;
+      </button>
+
+    </div>
+
+
+    <!-- Extract Button -->
+    <button type="button" class="extract-btn" (click)="onExtract()" [disabled]="!selectedFile || isExtracting()">
+
+      <ng-container *ngIf="!isExtracting()">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v18" />
+          <path d="M3 12h18" />
+        </svg>
+        Extract Information
+      </ng-container>
+
+      <ng-container *ngIf="isExtracting()">
+        <span class="spinner"></span>
+        Analyzing document...
+      </ng-container>
+
+    </button>
+
+  </section>
+
+
+  <!-- Error Banner -->
+  <div class="error-banner" *ngIf="errorMessage">
+    <div class="error-icon">!</div>
+    <div>
+      <strong>Something went wrong</strong>
+      <p>{{ errorMessage }}</p>
+    </div>
+  </div>
+
+
+  <!-- Save Success Banner -->
+  <div class="success-banner" *ngIf="stage() === 'saved' && successMessage">
+    <div class="status-icon">✓</div>
+    <div>
+      <strong>Saved to LifeVault!</strong>
+      <p>{{ successMessage }}</p>
+    </div>
+  </div>
+
+
+  <!-- Extraction Status -->
+  <section class="extraction-status" *ngIf="stage() === 'review' || stage() === 'saving'">
+    <div class="status-icon">✓</div>
+    <div>
+      <strong>Information extracted successfully</strong>
+      <p>
+        Review the information below and make any necessary changes
+        before saving.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- Extracted Information Form -->
+  <section class="form-card" *ngIf="stage() === 'review' || stage() === 'saving'">
+
+    <div class="section-heading">
+      <div>
+        <h2>Document Information</h2>
+        <p>Review and edit the information extracted from your document.</p>
+      </div>
+    </div>
+
+
+    <form [formGroup]="itemForm" (ngSubmit)="onSave()">
+
+      <div class="form-grid">
+
+        <!-- Product -->
+        <div class="form-group full-width">
+          <label for="productName">Product Name <span class="required">*</span></label>
+          <input id="productName" type="text" placeholder="e.g. Samsung Galaxy S25" formControlName="itemName"
+            [class.input-error]="itemForm.get('itemName')?.invalid && itemForm.get('itemName')?.touched" />
+          <small class="field-error" *ngIf="itemForm.get('itemName')?.invalid && itemForm.get('itemName')?.touched">
+            Product name is required.
+          </small>
+        </div>
+
+
+        <!-- Store -->
+        <div class="form-group">
+          <label for="store">Store / Seller</label>
+          <input id="store" type="text" placeholder="e.g. Samsung Store" formControlName="merchant" />
+        </div>
+
+
+        <!-- Purchase Date -->
+        <div class="form-group">
+          <label for="purchaseDate">Purchase Date</label>
+          <input id="purchaseDate" type="date" formControlName="purchaseDate" />
+        </div>
+
+
+        <!-- Price -->
+        <div class="form-group">
+          <label for="price">Purchase Price</label>
+
+          <div class="input-with-prefix">
+            <span>{{ currencyLabel }}</span>
+
+            <input id="price" type="number" placeholder="0.00" formControlName="price" />
+          </div>
+        </div>
+
+
+        <!-- Currency (hidden select — drives the prefix label) -->
+        <div class="form-group">
+          <label for="currency">Currency</label>
+          <select id="currency" formControlName="currency">
+            <option value="PKR">PKR – Pakistani Rupee</option>
+            <option value="USD">USD – US Dollar</option>
+            <option value="EUR">EUR – Euro</option>
+            <option value="GBP">GBP – British Pound</option>
+            <option value="AED">AED – UAE Dirham</option>
+            <option value="SAR">SAR – Saudi Riyal</option>
+          </select>
+        </div>
+
+
+        <!-- Warranty -->
+        <div class="form-group">
+          <label for="warranty">Warranty Period</label>
+
+          <select id="warranty" formControlName="warrantyPeriod">
+            <option value="">Select warranty</option>
+            <option value="none">No Warranty</option>
+            <option value="3-months">3 Months</option>
+            <option value="6-months">6 Months</option>
+            <option value="1-year">1 Year</option>
+            <option value="2-years">2 Years</option>
+            <option value="3-years">3 Years</option>
+          </select>
+        </div>
+
+
+        <!-- Warranty Expiry -->
+        <div class="form-group">
+          <label for="warrantyExpiry">Warranty Expiry</label>
+          <input id="warrantyExpiry" type="date" formControlName="warrantyExpiryDate" />
+        </div>
+
+
+        <!-- Return Deadline -->
+        <div class="form-group">
+          <label for="returnDeadline">Return Deadline</label>
+          <input id="returnDeadline" type="date" formControlName="returnDeadline" />
+        </div>
+
+
+        <!-- Category -->
+        <div class="form-group">
+          <label for="category">Category</label>
+
+          <select id="category" formControlName="category">
+            <option value="">Select category</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Appliances">Appliances</option>
+            <option value="Furniture">Furniture</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Vehicle">Vehicle</option>
+            <option value="Subscription">Subscription</option>
+            <option value="Insurance">Insurance</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+      </div>
+
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+
+        <button type="button" class="secondary-btn" (click)="onCancel()" [disabled]="isSaving">
+          Cancel
+        </button>
+
+        <button type="submit" class="save-btn" [disabled]="itemForm.invalid || isSaving">
+
+          <ng-container *ngIf="!isSaving">
+            Save to LifeVault
+          </ng-container>
+
+          <ng-container *ngIf="isSaving">
+            <span class="spinner spinner-white"></span>
+            Saving...
+          </ng-container>
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+
+</div>

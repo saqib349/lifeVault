@@ -1,0 +1,359 @@
+:host {
+  display: block;
+  min-height: calc(100vh - 70px);
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.not-found-page {
+  min-height: calc(100vh - 70px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 24px;
+
+  background:
+    radial-gradient(
+      circle at 30% 35%,
+      rgba(59, 130, 246, 0.08),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 70% 65%,
+      rgba(139, 92, 246, 0.07),
+      transparent 35%
+    ),
+    #080d1a;
+}
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.not-found-card {
+  position: relative;
+
+  width: 100%;
+  max-width: 560px;
+
+  padding: 65px 45px;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 18px;
+
+  background: rgba(15, 23, 42, 0.65);
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.30);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+
+/* =========================================================
+   DECORATIVE GLOW
+========================================================= */
+
+.glow {
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  border-radius: 50%;
+
+  filter: blur(70px);
+
+  pointer-events: none;
+}
+
+.glow-one {
+  top: -100px;
+  left: -80px;
+
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.glow-two {
+  right: -100px;
+  bottom: -100px;
+
+  background: rgba(139, 92, 246, 0.12);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.not-found-content {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   ERROR CODE
+========================================================= */
+
+.error-code {
+  margin-bottom: 8px;
+
+  background: linear-gradient(
+    135deg,
+    #60a5fa,
+    #a78bfa
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+
+  font-size: 92px;
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: -5px;
+
+  text-shadow:
+    0 10px 35px rgba(59, 130, 246, 0.12);
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.vault-icon {
+  width: 44px;
+  height: 44px;
+
+  margin: 18px 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 12px;
+
+  background: rgba(99, 102, 241, 0.10);
+
+  color: #a78bfa;
+
+  box-shadow:
+    0 8px 25px rgba(99, 102, 241, 0.10);
+}
+
+.vault-icon span {
+  font-size: 20px;
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.not-found-content h1 {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: 25px;
+  font-weight: 700;
+
+  letter-spacing: -0.4px;
+}
+
+.not-found-content p {
+  max-width: 410px;
+
+  margin: 12px 0 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 28px;
+}
+
+
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
+.primary-button {
+  height: 40px;
+  padding: 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  border: 1px solid rgba(59, 130, 246, 0.40);
+  border-radius: 8px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #6366f1
+  );
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  box-shadow:
+    0 5px 18px rgba(59, 130, 246, 0.16);
+
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.primary-button:hover {
+  filter: brightness(1.08);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 7px 22px rgba(59, 130, 246, 0.24);
+}
+
+.primary-button span {
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   SECONDARY BUTTON
+========================================================= */
+
+.secondary-button {
+  height: 40px;
+  padding: 0 17px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 8px;
+
+  background: rgba(148, 163, 184, 0.05);
+
+  color: #94a3b8;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.secondary-button:hover {
+  color: #e2e8f0;
+
+  background: rgba(148, 163, 184, 0.09);
+
+  border-color: rgba(148, 163, 184, 0.25);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .not-found-page {
+    padding: 30px 18px;
+  }
+
+  .not-found-card {
+    padding: 50px 25px;
+    border-radius: 15px;
+  }
+
+  .error-code {
+    font-size: 76px;
+  }
+
+  .not-found-content h1 {
+    font-size: 22px;
+  }
+
+  .not-found-content p {
+    font-size: 12px;
+  }
+
+}
+
+
+@media (max-width: 420px) {
+
+  .not-found-page {
+    padding: 20px 14px;
+  }
+
+  .not-found-card {
+    padding: 42px 20px;
+  }
+
+  .error-code {
+    font-size: 68px;
+  }
+
+  .actions {
+    width: 100%;
+
+    flex-direction: column;
+  }
+
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+  }
+
+}

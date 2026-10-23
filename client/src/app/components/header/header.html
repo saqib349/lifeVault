@@ -1,0 +1,114 @@
+<header class="app-header">
+  <div class="header-inner">
+
+    <!-- Brand -->
+    <a routerLink="/" class="brand">
+      <div class="brand-icon">
+        L
+      </div>
+
+      <div class="brand-text">
+        <span class="brand-name">LifeVault</span>
+        <span class="brand-tagline">AI-Powered Personal Vault</span>
+      </div>
+    </a>
+
+
+    @if (authService.islogedIn()) {
+
+      <!-- Authenticated Navigation -->
+      <nav class="main-nav">
+
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="active"
+        >
+          Dashboard
+        </a>
+
+        <a
+          routerLink="/vault"
+          routerLinkActive="active"
+        >
+          My Vault
+        </a>
+
+        <a
+          routerLink="/ai"
+          routerLinkActive="active"
+        >
+          <span class="ai-icon">✦</span>
+          AI Assistant
+        </a>
+
+      </nav>
+
+
+      <!-- Authenticated Actions -->
+      <div class="header-actions">
+
+        <button
+          class="ai-button"
+          routerLink="/ai"
+        >
+          <span>✦</span>
+          Ask AI
+        </button>
+
+        <div class="divider"></div>
+
+        <button class="profile-button">
+
+          <div class="avatar">
+            {{ authService.username()?.charAt(0)?.toUpperCase() || 'U' }}
+          </div>
+
+          <div class="profile-info">
+            <span class="profile-name">
+              {{ authService.username() || 'User' }}
+            </span>
+
+            <span class="profile-role">
+              Personal Vault
+            </span>
+          </div>
+
+          <span class="dropdown-icon">⌄</span>
+
+        </button>
+
+        <button
+          type="button"
+          class="logout-button"
+          (click)="logout()"
+        >
+          Logout
+        </button>
+
+      </div>
+
+    } @else {
+
+      <!-- Guest Actions -->
+      <div class="header-actions guest-actions">
+
+        <a
+          routerLink="/login"
+          class="login-button"
+        >
+          Login
+        </a>
+
+        <a
+          routerLink="/signup"
+          class="signup-button"
+        >
+          Sign Up
+        </a>
+
+      </div>
+
+    }
+
+  </div>
+</header>

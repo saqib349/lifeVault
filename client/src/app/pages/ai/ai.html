@@ -1,0 +1,173 @@
+<div class="ai-page">
+
+    <!-- Left sidebar -->
+    <aside class="ai-sidebar">
+        <div class="sidebar-brand">
+            <span class="ai-star">✦</span>
+            <div>
+                <h2>AI Assistant</h2>
+                <p>Ask about your receipts</p>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <span class="section-label">Try asking</span>
+            <div class="example-list">
+                @for (ex of examples; track ex) {
+                <button class="example-btn" (click)="useExample(ex)">
+                    {{ ex }}
+                </button>
+                }
+            </div>
+        </div>
+
+        @if (messages().length > 0) {
+        <button class="clear-chat-btn" (click)="clearChat()">
+            Clear conversation
+        </button>
+        }
+    </aside>
+
+
+    <!-- Chat area -->
+    <main class="chat-main">
+
+        <!-- Welcome (no messages yet) -->
+        @if (messages().length === 0) {
+        <div class="welcome">
+            <div class="welcome-icon">✦</div>
+            <h1>Ask about your receipts</h1>
+            <p>
+                I can find receipts by product, merchant, purchase date, price,
+                warranty status, expiry date, and more. Just ask in plain English.
+            </p>
+            <div class="welcome-examples">
+                @for (ex of examples.slice(0, 3); track ex) {
+                <button class="welcome-chip" (click)="useExample(ex)">{{ ex }}</button>
+                }
+            </div>
+        </div>
+        }
+
+
+        <!-- Messages -->
+        <div class="messages">
+
+            @for (msg of messages(); track $index) {
+
+            <!-- User bubble -->
+            @if (msg.role === 'user') {
+            <div class="msg msg-user">
+                <div class="bubble bubble-user">{{ msg.text }}</div>
+            </div>
+            }
+
+            <!-- Assistant bubble -->
+            @if (msg.role === 'assistant') {
+            <div class="msg msg-assistant">
+                <div class="assistant-avatar">✦</div>
+
+                <div class="assistant-content">
+
+                    <!-- Loading -->
+                    @if (msg.loading) {
+                    <div class="typing">
+                        <span></span><span></span><span></span>
+                    </div>
+                    }
+
+                    <!-- Error -->
+                    @if (!msg.loading && msg.error) {
+                    <div class="error-bubble">
+                        ⚠ {{ msg.text }}
+                    </div>
+                    }
+
+                    <!-- Normal response -->
+                    @if (!msg.loading && !msg.error) {
+                    <div class="explanation">{{ msg.text }}</div>
+
+                    <!-- Receipt cards -->
+                    @if (msg.items && msg.items.length > 0) {
+                    <div class="result-cards">
+                        @for (item of msg.items; track item._id) {
+                        <div class="result-card">
+
+                            <div class="result-card-header">
+                                <div>
+                                    <h4>{{ item.itemName }}</h4>
+                                    @if (item.merchant) {
+                                    <p class="result-merchant">{{ item.merchant }}</p>
+                                    }
+                                </div>
+                                <span class="badge {{ warrantyBadge(item).cls }}">
+                                    {{ warrantyBadge(item).label }}
+                                </span>
+                            </div>
+
+                            <div class="result-card-meta">
+                                @if (item.purchaseDate) {
+                                <span>📅 {{ formatDate(item.purchaseDate) }}</span>
+                                }
+                                @if (item.price != null) {
+                                <span>{{ formatPrice(item) }}</span>
+                                }
+                                @if (item.category) {
+                                <span>{{ item.category }}</span>
+                                }
+                                @if (item.warrantyExpiryDate) {
+                                <span>🛡 Expires {{ formatDate(item.warrantyExpiryDate) }}</span>
+                                }
+                            </div>
+
+                            <div class="result-card-footer">
+                                <a routerLink="/vault" class="view-link">
+                                    View in My Vault →
+                                </a>
+                            </div>
+
+                        </div>
+                        }
+                    </div>
+                    }
+
+                    @if (msg.items && msg.items.length === 0) {
+                    <div class="empty-result">
+                        No receipts found matching your query. Try a different question.
+                    </div>
+                    }
+                    }
+                </div>
+            </div>
+            }
+            }
+
+            <!-- Scroll anchor -->
+            <div #chatEnd></div>
+        </div>
+
+
+        <!-- Input bar -->
+        <div class="input-bar">
+            <div class="input-wrap">
+                <textarea rows="1" class="chat-input" placeholder="Ask about your receipts…" [(ngModel)]="question"
+                    (keydown)="onKeyDown($event)" [disabled]="isLoading()"></textarea>
+
+                <button class="send-btn" (click)="send()" [disabled]="!question.trim() || isLoading()" title="Send">
+                    @if (isLoading()) {
+                    <span class="spinner"></span>
+                    } @else {
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                    }
+                </button>
+            </div>
+            <p class="input-hint">Press Enter to send · Shift+Enter for new line</p>
+        </div>
+
+    </main>
+
+</div>
