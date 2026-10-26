@@ -20,8 +20,9 @@
       <nav class="main-nav">
 
         <a
-          routerLink="/dashboard"
+          routerLink="/"
           routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
         >
           Dashboard
         </a>
@@ -57,33 +58,85 @@
 
         <div class="divider"></div>
 
-        <button class="profile-button">
+        <div class="profile">
 
-          <div class="avatar">
-            {{ authService.username()?.charAt(0)?.toUpperCase() || 'U' }}
-          </div>
+          <button
+            type="button"
+            class="profile-button"
+            [class.open]="menuOpen()"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="menuOpen()"
+            (click)="toggleMenu()"
+          >
 
-          <div class="profile-info">
-            <span class="profile-name">
-              {{ authService.username() || 'User' }}
-            </span>
+            <div class="avatar">
+              {{ initials() }}
+            </div>
 
-            <span class="profile-role">
-              Personal Vault
-            </span>
-          </div>
+            <div class="profile-info">
+              <span class="profile-name">
+                {{ displayName() }}
+              </span>
 
-          <span class="dropdown-icon">⌄</span>
+              <span class="profile-role">
+                Personal Vault
+              </span>
+            </div>
 
-        </button>
+            <svg class="chevron" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M5 7.5l5 5 5-5" />
+            </svg>
 
-        <button
-          type="button"
-          class="logout-button"
-          (click)="logout()"
-        >
-          Logout
-        </button>
+          </button>
+
+          @if (menuOpen()) {
+
+            <div class="profile-menu" role="menu">
+
+              <div class="menu-header">
+                <div class="avatar avatar-lg">
+                  {{ initials() }}
+                </div>
+
+                <div class="menu-user">
+                  <span class="menu-name">{{ displayName() }}</span>
+                  <span class="menu-status">
+                    <span class="status-dot"></span>
+                    Signed in
+                  </span>
+                </div>
+              </div>
+
+              <div class="menu-divider"></div>
+
+              <a routerLink="/" class="menu-item" role="menuitem" (click)="closeMenu()">
+                Upload receipt
+              </a>
+
+              <a routerLink="/vault" class="menu-item" role="menuitem" (click)="closeMenu()">
+                My Vault
+              </a>
+
+              <a routerLink="/ai" class="menu-item" role="menuitem" (click)="closeMenu()">
+                AI Assistant
+              </a>
+
+              <div class="menu-divider"></div>
+
+              <button
+                type="button"
+                class="menu-item menu-logout"
+                role="menuitem"
+                (click)="logout()"
+              >
+                Log out
+              </button>
+
+            </div>
+
+          }
+
+        </div>
 
       </div>
 

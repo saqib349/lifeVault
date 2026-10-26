@@ -16,7 +16,11 @@
       <p>Start building your secure personal vault.</p>
     </div>
 
-    <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+    @if (errorMessage()) {
+      <div class="alert alert-error" role="alert">{{ errorMessage() }}</div>
+    }
+
+    <form [formGroup]="signupForm" (ngSubmit)="handleSignup()" novalidate>
 
       <div class="form-group">
         <label for="username">Username</label>
@@ -25,8 +29,14 @@
           type="text"
           id="username"
           placeholder="saqib123"
+          autocomplete="username"
           formControlName="username"
+          [class.invalid]="showError('username')"
+          [attr.aria-invalid]="showError('username')"
         />
+        @if (showError('username')) {
+          <span class="field-error">{{ getError('username') }}</span>
+        }
       </div>
 
       <div class="form-group">
@@ -36,23 +46,64 @@
           type="email"
           id="email"
           placeholder="you@example.com"
+          autocomplete="email"
           formControlName="email"
+          [class.invalid]="showError('email')"
+          [attr.aria-invalid]="showError('email')"
         />
+        @if (showError('email')) {
+          <span class="field-error">{{ getError('email') }}</span>
+        }
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
 
-        <input
-          type="password"
-          id="password"
-          placeholder="Create a secure password"
-          formControlName="password"
-        />
+        <div class="password-field">
+          <input
+            [type]="showPassword() ? 'text' : 'password'"
+            id="password"
+            placeholder="Create a secure password"
+            autocomplete="new-password"
+            formControlName="password"
+            [class.invalid]="showError('password')"
+            [attr.aria-invalid]="showError('password')"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePassword()"
+            [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+          >
+            {{ showPassword() ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+        @if (showError('password')) {
+          <span class="field-error">{{ getError('password') }}</span>
+        } @else {
+          <span class="field-hint">At least {{ passwordMinLength }} characters, with a letter and a number.</span>
+        }
       </div>
 
-      <button type="submit" [disabled]="signupForm.invalid">
-        Create account
+      <div class="form-group">
+        <label for="confirmPassword">Confirm password</label>
+
+        <input
+          [type]="showPassword() ? 'text' : 'password'"
+          id="confirmPassword"
+          placeholder="Re-enter your password"
+          autocomplete="new-password"
+          formControlName="confirmPassword"
+          [class.invalid]="showError('confirmPassword')"
+          [attr.aria-invalid]="showError('confirmPassword')"
+        />
+        @if (showError('confirmPassword')) {
+          <span class="field-error">{{ getError('confirmPassword') }}</span>
+        }
+      </div>
+
+      <button type="submit" class="submit-button" [disabled]="loading()">
+        {{ loading() ? 'Creating account...' : 'Create account' }}
       </button>
 
     </form>
@@ -64,4 +115,3 @@
 
   </div>
 </div>
-
