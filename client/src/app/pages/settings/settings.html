@@ -1,0 +1,209 @@
+<div class="settings-page">
+  <div class="settings-inner">
+
+    <header class="page-header">
+      <h1>Settings</h1>
+      <p>Manage your account and security.</p>
+    </header>
+
+    @if (loadingProfile()) {
+      <div class="card muted">Loading your profile...</div>
+    } @else if (profileError()) {
+      <div class="card">
+        <div class="alert alert-error" role="alert">{{ profileError() }}</div>
+        <button type="button" class="secondary-button" (click)="loadProfile()">Try again</button>
+      </div>
+    } @else if (profile(); as user) {
+
+      <!-- Account -->
+      <section class="card">
+        <h2>Account</h2>
+        <dl class="details">
+          <div>
+            <dt>Username</dt>
+            <dd>{{ user.username }}</dd>
+          </div>
+          <div>
+            <dt>Email</dt>
+            <dd>{{ user.email }}</dd>
+          </div>
+          <div>
+            <dt>Member since</dt>
+            <dd>{{ user.createdAt | date: 'd MMM yyyy' }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- Change password -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <h2>Change password</h2>
+            <p>After changing it, you will be signed out on your other devices.</p>
+          </div>
+          <button type="button" class="link-button" (click)="togglePasswords()">
+            {{ showPasswords() ? 'Hide passwords' : 'Show passwords' }}
+          </button>
+        </div>
+
+        @if (passwordSuccess()) {
+          <div class="alert alert-success" role="status">{{ passwordSuccess() }}</div>
+        }
+        @if (passwordError()) {
+          <div class="alert alert-error" role="alert">{{ passwordError() }}</div>
+        }
+
+        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" novalidate>
+
+          <div class="form-group">
+            <label for="currentPassword">Current password</label>
+            <input
+              [type]="showPasswords() ? 'text' : 'password'"
+              id="currentPassword"
+              autocomplete="current-password"
+              formControlName="currentPassword"
+              [class.invalid]="showPasswordError('currentPassword')"
+            />
+            @if (showPasswordError('currentPassword')) {
+              <span class="field-error">{{ getPasswordError('currentPassword') }}</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="newPassword">New password</label>
+            <input
+              [type]="showPasswords() ? 'text' : 'password'"
+              id="newPassword"
+              autocomplete="new-password"
+              formControlName="newPassword"
+              [class.invalid]="showPasswordError('newPassword')"
+            />
+            @if (showPasswordError('newPassword')) {
+              <span class="field-error">{{ getPasswordError('newPassword') }}</span>
+            } @else {
+              <span class="field-hint">At least {{ passwordMinLength }} characters, with a letter and a number.</span>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm new password</label>
+            <input
+              [type]="showPasswords() ? 'text' : 'password'"
+              id="confirmPassword"
+              autocomplete="new-password"
+              formControlName="confirmPassword"
+              [class.invalid]="showPasswordError('confirmPassword')"
+            />
+            @if (showPasswordError('confirmPassword')) {
+              <span class="field-error">{{ getPasswordError('confirmPassword') }}</span>
+            }
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="primary-button" [disabled]="savingPassword()">
+              {{ savingPassword() ? 'Saving...' : 'Change password' }}
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- Two-factor authentication -->
+      <section class="card">
+        <div class="card-header">
+          <div>
+            <h2>Two-factor authentication</h2>
+            <p>When it is on, we email you a 6-digit code each time you sign in.</p>
+          </div>
+          <span class="badge" [class.badge-on]="user.twoFactorEnabled">
+            {{ user.twoFactorEnabled ? 'On' : 'Off' }}
+          </span>
+        </div>
+
+        @if (twoFactorSuccess()) {
+          <div class="alert alert-success" role="status">{{ twoFactorSuccess() }}</div>
+        }
+        @if (twoFactorError()) {
+          <div class="alert alert-error" role="alert">{{ twoFactorError() }}</div>
+        }
+
+        @switch (twoFactorStep()) {
+
+          @case ('code') {
+            <form (ngSubmit)="confirmEnable()" novalidate>
+              <div class="form-group">
+                <label for="enableCode">Code sent to {{ user.email }}</label>
+                <input
+                  type="text"
+                  id="enableCode"
+                  class="code-input"
+                  inputmode="numeric"
+                  autocomplete="one-time-code"
+                  maxlength="6"
+                  placeholder="123456"
+                  [formControl]="codeControl"
+                  [class.invalid]="codeError"
+                />
+                @if (codeError) {
+                  <span class="field-error">{{ codeError }}</span>
+                }
+              </div>
+
+              <div class="actions">
+                <button type="submit" class="primary-button" [disabled]="twoFactorBusy()">
+                  {{ twoFactorBusy() ? 'Please wait...' : 'Turn on' }}
+                </button>
+                <button type="button" class="secondary-button" (click)="startEnable()" [disabled]="twoFactorBusy()">
+                  Resend code
+                </button>
+                <button type="button" class="link-button" (click)="cancelTwoFactor()">Cancel</button>
+              </div>
+            </form>
+          }
+
+          @case ('disable') {
+            <form (ngSubmit)="confirmDisable()" novalidate>
+              <div class="form-group">
+                <label for="disablePassword">Enter your password to turn it off</label>
+                <input
+                  type="password"
+                  id="disablePassword"
+                  autocomplete="current-password"
+                  [formControl]="disablePasswordControl"
+                  [class.invalid]="disablePasswordControl.touched && disablePasswordControl.invalid"
+                />
+                @if (disablePasswordControl.touched && disablePasswordControl.invalid) {
+                  <span class="field-error">Password is required.</span>
+                }
+              </div>
+
+              <div class="actions">
+                <button type="submit" class="danger-button" [disabled]="twoFactorBusy()">
+                  {{ twoFactorBusy() ? 'Please wait...' : 'Turn off' }}
+                </button>
+                <button type="button" class="link-button" (click)="cancelTwoFactor()">Cancel</button>
+              </div>
+            </form>
+          }
+
+          @default {
+            <div class="actions">
+              @if (user.twoFactorEnabled) {
+                <button type="button" class="secondary-button" (click)="startDisable()">
+                  Turn off two-factor authentication
+                </button>
+              } @else {
+                <button type="button" class="primary-button" (click)="startEnable()" [disabled]="twoFactorBusy()">
+                  {{ twoFactorBusy() ? 'Sending code...' : 'Turn on two-factor authentication' }}
+                </button>
+              }
+            </div>
+          }
+
+        }
+      </section>
+
+    }
+
+  </div>
+</div>

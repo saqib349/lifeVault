@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { GetItemsResponse, GetItemResponse } from '../models/item';
 
 export interface GetItemsParams {
@@ -14,7 +15,7 @@ export interface GetItemsParams {
 @Injectable({ providedIn: 'root' })
 export class VaultService {
     private http = inject(HttpClient);
-    private readonly base = 'https://life-vault-2up2.vercel.app/api/items';
+    private readonly base = `${environment.apiUrl}/api/items`;
 
     getMyItems(params: GetItemsParams = {}) {
         let httpParams = new HttpParams();
@@ -33,7 +34,7 @@ export class VaultService {
     }
 
     getDocumentUrl(documentId: string): string {
-        return `https://life-vault-2up2.vercel.app/api/documents/${documentId}`;
+        return `${environment.apiUrl}/api/documents/${documentId}`;
     }
 
     getDocument(documentId: string) {
@@ -44,7 +45,7 @@ export class VaultService {
     }
 
     getDownloadUrl(documentId: string) {
-        return `https://life-vault-2up2.vercel.app/api/documents/${documentId}/download`;
+        return `${environment.apiUrl}/api/documents/${documentId}/download`;
     }
     getDownload(documentId: string) {
         return this.http.get(

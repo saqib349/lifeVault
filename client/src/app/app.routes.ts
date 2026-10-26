@@ -6,6 +6,7 @@ import { NotFound } from './components/not-found/not-found';
 import { Vault } from './pages/vault/vault';
 import { Ai } from './pages/ai/ai';
 import { Legal } from './pages/legal/legal';
+import { Settings } from './pages/settings/settings';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,10 @@ export const routes: Routes = [
     {
         path: "ai",
         component: Ai
+    },
+    {
+        path: "settings",
+        component: Settings
     },
     {
 

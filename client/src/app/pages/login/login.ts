@@ -78,8 +78,17 @@ export class Login {
     const password= this.loginForm.controls.password.value
     this.loading.set(true)
       this.authService.login({email,password}).subscribe({
-        next : ()=>{
+        next : (result)=>{
            this.loading.set(false)
+           this.successMessage.set('')
+
+           if (result.twoFactorRequired && result.tempToken) {
+             this.tempToken.set(result.tempToken)
+             this.codeSentTo.set(result.email || 'your email')
+             this.codeControl.reset()
+             return
+           }
+
             this.router.navigate(['/'])
         },
         error : (err)=>{
@@ -90,5 +99,76 @@ export class Login {
           )
         }
       })
+  }
+
+  /* ---- Step 2: email verification code (only when 2FA is on) ---- */
+
+  // Set when the password step passed and a code was emailed.
+  tempToken = signal('')
+  codeSentTo = signal('')
+  resending = signal(false)
+
+  codeControl = new FormControl<string>('', {
+    nonNullable: true,
+    validators: [Validators.required, Validators.pattern(/^\d{6}$/)]
+  })
+
+  get codeError(): string {
+    if (!this.codeControl.touched || this.codeControl.valid) return ''
+    return this.codeControl.hasError('required')
+      ? 'Enter the 6-digit code.'
+      : 'The code must be 6 digits.'
+  }
+
+  handleVerifyCode(){
+    this.errorMessage.set('')
+    this.successMessage.set('')
+    this.codeControl.markAsTouched()
+
+    if (this.codeControl.invalid || this.loading()) return
+
+    this.loading.set(true)
+    this.authService.verifyTwoFactor(this.tempToken(), this.codeControl.value).subscribe({
+      next: () => {
+        this.loading.set(false)
+        this.router.navigate(['/'])
+      },
+      error: (err) => {
+        this.loading.set(false)
+        // An expired sign-in session can't be retried with a code.
+        if (err?.status === 401) {
+          this.backToPassword()
+        }
+        this.errorMessage.set(err?.error?.message || 'Unable to verify the code. Please try again.')
+      }
+    })
+  }
+
+  resendCode(){
+    if (this.resending()) return
+
+    this.errorMessage.set('')
+    this.successMessage.set('')
+    this.resending.set(true)
+
+    this.authService.resendTwoFactorCode(this.tempToken()).subscribe({
+      next: (result) => {
+        this.resending.set(false)
+        this.successMessage.set(result.message)
+      },
+      error: (err) => {
+        this.resending.set(false)
+        if (err?.status === 401) {
+          this.backToPassword()
+        }
+        this.errorMessage.set(err?.error?.message || 'Unable to send a new code.')
+      }
+    })
+  }
+
+  backToPassword(){
+    this.tempToken.set('')
+    this.codeSentTo.set('')
+    this.loginForm.controls.password.reset()
   }
 }

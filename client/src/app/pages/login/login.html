@@ -22,6 +22,51 @@
       <div class="alert alert-error" role="alert">{{ errorMessage() }}</div>
     }
 
+    @if (tempToken()) {
+
+    <form (ngSubmit)="handleVerifyCode()" novalidate>
+
+      <p class="step-info">
+        We sent a 6-digit code to <strong>{{ codeSentTo() }}</strong>.
+        Enter it below to finish signing in.
+      </p>
+
+      <div class="form-group">
+        <label for="code">Verification code</label>
+        <input
+          type="text"
+          id="code"
+          class="code-input"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          maxlength="6"
+          placeholder="123456"
+          [formControl]="codeControl"
+          [class.invalid]="codeError"
+          [attr.aria-invalid]="!!codeError"
+        />
+        @if (codeError) {
+          <span class="field-error">{{ codeError }}</span>
+        }
+      </div>
+
+      <button type="submit" class="submit-button" [disabled]="loading()">
+        {{ loading() ? 'Verifying...' : 'Verify and sign in' }}
+      </button>
+
+      <div class="code-actions">
+        <button type="button" class="link-button" (click)="resendCode()" [disabled]="resending()">
+          {{ resending() ? 'Sending...' : 'Resend code' }}
+        </button>
+        <button type="button" class="link-button" (click)="backToPassword()">
+          Use a different account
+        </button>
+      </div>
+
+    </form>
+
+    } @else {
+
     <form [formGroup]="loginForm" (ngSubmit)="handleLogin()" novalidate>
 
       <div class="form-group">
@@ -71,6 +116,8 @@
       </button>
 
     </form>
+
+    }
 
     <div class="auth-footer">
       <span>Don't have an account?</span>

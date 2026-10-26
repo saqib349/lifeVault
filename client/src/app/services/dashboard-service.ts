@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { ExtractDocumentResponse, SaveItemRequest, SaveItemResponse } from '../models/Document';
 
 @Injectable({
@@ -12,14 +13,14 @@ export class DashboardService {
         const formData = new FormData();
         formData.append('document', file);
         return this.http.post<ExtractDocumentResponse>(
-            'https://life-vault-2up2.vercel.app/api/items/extract',
+            `${environment.apiUrl}/api/items/extract`,
             formData
         );
     }
 
     saveItem(body: SaveItemRequest) {
         return this.http.post<SaveItemResponse>(
-            'https://life-vault-2up2.vercel.app/api/items',
+            `${environment.apiUrl}/api/items`,
             body
         );
     }
