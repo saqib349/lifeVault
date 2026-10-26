@@ -306,3 +306,52 @@ input.invalid:focus {
   color: #e2e8f0;
   background: rgba(148, 163, 184, 0.08);
 }
+
+/* 2FA code step */
+
+.step-info {
+  margin: 0;
+
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.step-info strong {
+  color: #e2e8f0;
+}
+
+.code-input {
+  font-size: 22px;
+  letter-spacing: 8px;
+  text-align: center;
+}
+
+.code-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.link-button {
+  padding: 0;
+
+  border: none;
+  background: none;
+  color: #60a5fa;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.link-button:hover:not(:disabled) {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+.link-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
