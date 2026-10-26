@@ -6,6 +6,7 @@ import { NotFound } from './components/not-found/not-found';
 import { Vault } from './pages/vault/vault';
 import { Ai } from './pages/ai/ai';
 import { Legal } from './pages/legal/legal';
+import { About } from './pages/about/about';
 
 export const routes: Routes = [
     {
@@ -33,6 +34,10 @@ export const routes: Routes = [
     {
         path: "signup",
         component: Signup
+    },
+    {
+        path: "about",
+        component: About
     },
     {
         path: "privacy",
