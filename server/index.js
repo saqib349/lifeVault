@@ -1,7 +1,6 @@
 
-if (process.env.NODE_ENV !== "production") {
-    process.loadEnvFile?.();
-}
+// Must stay the first import (see config/env.js).
+import "./config/env.js";
 
 import express from "express";
 import cors from "cors";
