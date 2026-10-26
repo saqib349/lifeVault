@@ -454,20 +454,6 @@
   gap: 9px;
 }
 
-.about-link {
-  padding: 0 10px;
-
-  color: #94a3b8;
-  text-decoration: none;
-
-  font-size: 13px;
-}
-
-.about-link:hover,
-.about-link.active {
-  color: #e2e8f0;
-}
-
 
 /* =========================
    LOGIN BUTTON
