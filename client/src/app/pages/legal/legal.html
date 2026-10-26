@@ -1,0 +1,95 @@
+<div class="legal-page">
+  <article class="legal-card">
+
+    <nav class="legal-tabs">
+      <a routerLink="/privacy" [class.active]="page() === 'privacy'">Privacy Policy</a>
+      <a routerLink="/terms" [class.active]="page() === 'terms'">Terms of Use</a>
+    </nav>
+
+    @if (page() === 'privacy') {
+
+      <header class="legal-header">
+        <h1>Privacy Policy</h1>
+        <p>Last updated: {{ lastUpdated }}</p>
+      </header>
+
+      <section>
+        <h2>What we store</h2>
+        <ul>
+          <li>Your account details: username, email and a securely hashed password.</li>
+          <li>The receipts, invoices and warranty documents you upload.</li>
+          <li>Item details such as name, merchant, price, purchase date and warranty dates.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>How AI is used</h2>
+        <p>
+          When you upload a document or ask the AI Assistant a question, the document
+          or question is sent to Google Gemini to read it. The result is shown to you
+          for review before anything is saved.
+        </p>
+      </section>
+
+      <section>
+        <h2>Who can see your data</h2>
+        <p>
+          Your items and documents are linked to your account. Only you can list,
+          preview or download them while signed in.
+        </p>
+      </section>
+
+      <section>
+        <h2>Sign-in</h2>
+        <p>
+          After you sign in, a login token is kept in your browser so you stay signed in.
+          Logging out removes it.
+        </p>
+      </section>
+
+    } @else {
+
+      <header class="legal-header">
+        <h1>Terms of Use</h1>
+        <p>Last updated: {{ lastUpdated }}</p>
+      </header>
+
+      <section>
+        <h2>Using LifeVault</h2>
+        <p>
+          LifeVault helps you keep receipts and warranty documents in one place.
+          You are responsible for keeping your password safe and for the documents you upload.
+        </p>
+      </section>
+
+      <section>
+        <h2>AI-extracted information</h2>
+        <p>
+          Details read by AI can be wrong or incomplete. Always check the extracted
+          fields, especially prices and warranty dates, before saving them.
+        </p>
+      </section>
+
+      <section>
+        <h2>Allowed files</h2>
+        <ul>
+          <li>JPG, PNG, WEBP or PDF files only.</li>
+          <li>Upload only documents you own or have the right to store.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>No guarantee</h2>
+        <p>
+          LifeVault is provided as is. Keep the original copies of important documents.
+        </p>
+      </section>
+
+    }
+
+    <div class="legal-actions">
+      <a routerLink="/" class="back-link">← Back to Home</a>
+    </div>
+
+  </article>
+</div>
