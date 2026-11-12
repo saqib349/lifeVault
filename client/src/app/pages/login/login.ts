@@ -1,11 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { AuthService } from '../../services/auth-service';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { EMAIL_PATTERN } from '../../validators/auth-validators';
 
 @Component({
-  imports: [ReactiveFormsModule,RouterLink],
+  imports: [ReactiveFormsModule,RouterLink,FormsModule],
   selector: 'app-login',
   styleUrl: './login.css',
   templateUrl: './login.html',
