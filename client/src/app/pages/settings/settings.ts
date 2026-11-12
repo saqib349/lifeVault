@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators,FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
 import { Profile } from '../../models/user';
@@ -21,7 +21,7 @@ function errorMessage(err: any, fallback: string): string {
 }
 
 @Component({
-  imports: [ReactiveFormsModule, DatePipe],
+  imports: [ReactiveFormsModule, DatePipe,FormsModule],
   selector: 'app-settings',
   styleUrl: './settings.css',
   templateUrl: './settings.html',
